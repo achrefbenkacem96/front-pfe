@@ -52,6 +52,7 @@ interface quicklinks {
   templateUrl: './header.component.html',
 })
 export class AppHorizontalHeaderComponent {
+  username: string | null = localStorage.getItem('username')
   @Input() showToggle = true;
   @Input() toggleChecked = false;
   @Output() toggleMobileNav = new EventEmitter<void>();
@@ -283,6 +284,7 @@ export class AppHorizontalSearchDialogComponent  implements AfterViewInit  {
   searchText: string = '';
   navItems = navItems;
   navItemsData:any;
+  username: string | null = localStorage.getItem('username');
   ngAfterViewInit(): void {
   this.navItemsData = navItems.filter((navitem) => navitem.displayName);
   }

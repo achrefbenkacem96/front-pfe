@@ -55,7 +55,7 @@ interface quicklinks {
   encapsulation: ViewEncapsulation.None,
 })
 export class HeaderComponent {
-
+  username: string | null = localStorage.getItem('username')
   @Input() showToggle = true;
   @Input() toggleChecked = false;
   @Output() toggleMobileNav = new EventEmitter<void>();
@@ -294,6 +294,7 @@ export class HeaderComponent {
   templateUrl: 'search-dialog.component.html',
 })
 export class AppSearchDialogComponent implements AfterViewInit  {
+
   searchText: string = '';
   navItems = navItems;
   navItemsData:any;

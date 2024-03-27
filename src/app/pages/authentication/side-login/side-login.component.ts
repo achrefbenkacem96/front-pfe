@@ -71,6 +71,8 @@ export class AppSideLoginComponent  implements AfterViewInit {
         localStorage.setItem('accessToken',res.accessToken)
         //@ts-ignore
         localStorage.setItem('role',res.roles[0])
+         //@ts-ignore
+        localStorage.setItem('username',res.username)
         window.location.href = '/dashboards/dashboard1' ;
         return {
         }

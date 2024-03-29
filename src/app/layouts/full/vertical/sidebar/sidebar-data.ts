@@ -1,9 +1,8 @@
 import { NavItem } from './nav-item/nav-item';
 let navItems: NavItem[] = [];
 let role =null
-while (!role) {
-  role = localStorage.getItem('role');
-}
+   role = localStorage.getItem('role');
+ 
 console.log("🚀 ~ role:", role)
 switch (role) {
   case 'ROLE_ADMIN':

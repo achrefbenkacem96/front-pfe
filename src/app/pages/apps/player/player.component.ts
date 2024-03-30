@@ -4,173 +4,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddPlayerComponent } from './add/add.component';
+import { Player } from 'src/app/models/Player';
+import { UsersService } from '../services/users.service';
+import { PlayerService } from '../services/player.service';
 
 
-export interface Player {
-  idPlayer: number;
-  contratStart: Date;
-  contratEnd: Date;
-  countryOfResidence:string;
-  dateOfBirth: Date;
-  discordId: string;
-  inGameName: string;
-  jerseySize: string;
-  leagalefullname: string;
-  mailAdress: string;
-  salary: number;
-  socialMediaLinks:string;
-  whatsappPhone:string;
-  imagePath:string;
-}
+ 
 
 
-const players = [
-  {
-    idPlayer: 1,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: "fray khalil",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-  {
-    idPlayer: 2,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: " khalil",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-  {
-    idPlayer: 3,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: "sam smith",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-  {
-    idPlayer: 4,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: "jhon",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-  {
-    idPlayer: 5,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: "moahmed ",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-  {
-    idPlayer: 6,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: "ghaith ",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-  {
-    idPlayer: 7,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: "haithem",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-  {
-    idPlayer: 8,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: "Malek ",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-  {
-    idPlayer: 9,
-    contratStart:  new Date('04-2-2020'),
-    contratEnd:  new Date('04-2-2020'),
-    countryOfResidence:"tunisia",
-    dateOfBirth:  new Date('04-2-2020'),
-    discordId:"1233#qddqs",
-    inGameName: "macgyver",
-    jerseySize: "xl",
-    leagalefullname: "salma ",
-    mailAdress: "fray.khalil.200@gmail.com",
-    salary: 5000000000000000000000000000,
-    socialMediaLinks:"khalilfacebook.com",
-    whatsappPhone:"53665566",
-    imagePath: 'assets/images/profile/user-3.jpg',
-  },
-];
-
+ 
 @Component({
   templateUrl: './player.component.html',
 })
@@ -179,30 +21,45 @@ export class AppPlayerComponent implements AfterViewInit {
   searchText: any;
   displayedColumns: string[] = [
     '#',
-    'name',
+    'fullName',
     'dateOfBirth',
     'countryOfResidence',
-    'whatsappPhone',
+    'whatsappPhoneNumber',
     'discordId',
-    'mailAdress',
-    'contratStart',
-    'contratEnd',
+    'mailAddress',
+    'contractStart',
+    'contractEnd',
     'salary',
     'jerseySize',
-    'socialMediaLinks',
+    'socialMediaLinkFollowers',
     'action',
   ];
-  dataSource = new MatTableDataSource(players);
+  players: Player[] = [];
   role: any = localStorage.getItem('role');
-
+  dataSource = new MatTableDataSource(this.players);
+ 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public servicePlayer: PlayerService) { }
 
   ngAfterViewInit(): void {
+    this.loadPlayers();
     this.dataSource.paginator = this.paginator;
   }
 
+  loadPlayers() {
+    this.servicePlayer.getAllPlayers().subscribe({
+      next: (res: any) => { // Specify the type of 'res' as 'any[]'
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.players = res; // Parse the response
+        this.dataSource.data = res; // Update the dataSource with the new data
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+  }
+  
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -225,21 +82,15 @@ export class AppPlayerComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   addRowData(row_obj: Player): void {
-    this.dataSource.data.unshift({
-      idPlayer: players.length + 1,
-      contratStart: row_obj.contratStart,
-      contratEnd:  row_obj.contratEnd,
-      countryOfResidence: row_obj.countryOfResidence,
-      dateOfBirth: row_obj.dateOfBirth,
-      discordId: row_obj.discordId,
-      inGameName: row_obj.inGameName,
-      jerseySize: row_obj.jerseySize,
-      leagalefullname: row_obj.leagalefullname,
-      mailAdress:row_obj.mailAdress,
-      salary:row_obj.salary,
-      socialMediaLinks:row_obj.socialMediaLinks,
-      whatsappPhone:row_obj.whatsappPhone,
-      imagePath:row_obj.imagePath
+    this.servicePlayer.addPlayer(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadPlayers()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddPlayerComponent);
     this.table.renderRows();
@@ -247,30 +98,28 @@ export class AppPlayerComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   updateRowData(row_obj: Player): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      if (value.idPlayer === row_obj.idPlayer) {
-        value.contratStart= row_obj.contratStart;
-        value.contratEnd= row_obj.contratEnd;
-        value.countryOfResidence= row_obj.countryOfResidence;
-        value.dateOfBirth= row_obj.dateOfBirth;
-        value.discordId= row_obj.discordId;
-        value.inGameName= row_obj.inGameName;
-        value.jerseySize= row_obj.jerseySize;
-        value.leagalefullname= row_obj.leagalefullname;
-        value.mailAdress=row_obj.mailAdress;
-        value.salary=row_obj.salary;
-        value.socialMediaLinks=row_obj.socialMediaLinks;
-        value.whatsappPhone=row_obj.whatsappPhone;
-        value.imagePath=row_obj.imagePath;
+    this.servicePlayer.updatePlayer(row_obj.id,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadPlayers()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
       }
-      return true;
     });
   }
 
   // tslint:disable-next-line - Disables all
   deleteRowData(row_obj: Player): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.idPlayer !== row_obj.idPlayer;
+    this.servicePlayer.deletePlayer(row_obj.id).subscribe({
+      next: () => {
+        this.loadPlayers()
+        console.log('User deleted successfully.');
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+      }
     });
   }
 }

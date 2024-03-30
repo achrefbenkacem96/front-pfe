@@ -4,24 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddScrimsComponent } from './add/add.component';
+import { Scrims } from 'src/app/models/Scrims';
+import { ScrimsService } from '../services/scrims.service';
 
-export interface Scrims {
-  description: string;
-  niveau: string;
-  mode: string;
-  specialObjectives: string[];
-  scrimsPlayers: string[];
-}
-
-const Scrimss= [
-  {
-    description: "description",
-    niveau: ' niveau',
-    mode:"mode",
-    specialObjectives:["sdfkj","jejez;"],
-    scrimsPlayers:["sdfkj","jejez;"],
-  },
-];
+ 
 
 @Component({
   templateUrl: './scrims.component.html',
@@ -30,20 +16,37 @@ export class AppScrimsComponent implements AfterViewInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   searchText: any;
   displayedColumns: string[] = [
+    '#',
+    'idSession',
     'description',
     'niveau',
-    'specialObjectives',
-    'scrimsPlayers',
+    'mode',
     'action'
 
   ];
-  dataSource = new MatTableDataSource(Scrimss);
+  scrims: Scrims[] = [];
+  role: any = localStorage.getItem('role');
+  dataSource = new MatTableDataSource(this.scrims);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceScrims: ScrimsService) { }
 
   ngAfterViewInit(): void {
+    this.loadScrims();
     this.dataSource.paginator = this.paginator;
+  }
+
+  loadScrims() {
+    this.serviceScrims.getAllScrims().subscribe({
+      next: (res: any) => { // Specify the type of 'res' as 'any[]'
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.scrims = res; // Parse the response
+        this.dataSource.data = this.scrims; // Update the dataSource with the new data
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
   }
 
   applyFilter(filterValue: string): void {
@@ -68,13 +71,15 @@ export class AppScrimsComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   addRowData(row_obj: Scrims): void {
-    this.dataSource.data.unshift({
-      description: row_obj.description,
-      niveau: row_obj.niveau,
-      mode: row_obj.mode,
-      specialObjectives: row_obj.specialObjectives,
-      scrimsPlayers: row_obj.scrimsPlayers,
-    
+    this.serviceScrims.addScrim(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadScrims()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddScrimsComponent);
     this.table.renderRows();
@@ -82,22 +87,28 @@ export class AppScrimsComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   updateRowData(row_obj: Scrims): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      
-        value.description = row_obj.description;
-        value.niveau = row_obj.niveau;
-        value.mode = row_obj.mode;
-        value.specialObjectives = row_obj.specialObjectives;
-        value.scrimsPlayers=row_obj.scrimsPlayers;
-      
-      return true;
+    this.serviceScrims.updateScrim(row_obj.idscrims,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadScrims()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
   }
 
   // tslint:disable-next-line - Disables all
   deleteRowData(row_obj: Scrims): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.description !== row_obj.description;
+    this.serviceScrims.deleteScrim(row_obj.idscrims).subscribe({
+      next: () => {
+        this.loadScrims()
+        console.log('User deleted successfully.');
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+      }
     });
   }
 }

@@ -4,69 +4,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddTeamComponent } from './add/add.component';
+import { Team } from 'src/app/models/Team';
+import { TeamService } from '../services/team.service';
 
 
-
-export interface Team {
-  idTeam: number;
-  teamName: string;
-  description: string;
-  dateCreation: Date;
-  participatingTournaments: string[];
-  rolesAndResponsibilities: string[];
-}
-
-const teams = [
-  {
-    idTeam: 1,
-    teamName: ' gng',
-    description: "team description",
-    dateCreation:  new Date('04-2-2020'),
-    participatingTournaments : ["Tournament 1", "Tournament 2", "Tournament 3"],
-    rolesAndResponsibilities: ["Tournament 1", "Tournament 2", "Tournament 3"],
-  },
  
-  {
-    idTeam: 2,
-    teamName: ' gng',
-    description: "team description",
-    dateCreation:  new Date('04-2-2020'),
-    participatingTournaments : ["Tournament 1", "Tournament 2", "Tournament 3"],
-    rolesAndResponsibilities: ["Tournament 1", "Tournament 2", "Tournament 3"],
-  },
-  {
-    idTeam: 3,
-    teamName: ' gng',
-    description: "team description",
-    dateCreation:  new Date('04-2-2020'),
-    participatingTournaments : ["Tournament 1", "Tournament 2", "Tournament 3"],
-    rolesAndResponsibilities: ["Tournament 1", "Tournament 2", "Tournament 3"],
-  },
-  {
-    idTeam: 4,
-    teamName: ' gng',
-    description: "team description",
-    dateCreation:  new Date('04-2-2020'),
-    participatingTournaments : ["Tournament 1", "Tournament 2", "Tournament 3"],
-    rolesAndResponsibilities: ["Tournament 1", "Tournament 2", "Tournament 3"],
-  },
-  {
-    idTeam: 5,
-    teamName: ' gng',
-    description: "team description",
-    dateCreation:  new Date('04-2-2020'),
-    participatingTournaments : ["Tournament 1", "Tournament 2", "Tournament 3"],
-    rolesAndResponsibilities: ["Tournament 1", "Tournament 2", "Tournament 3"],
-  },
-  {
-    idTeam: 6,
-    teamName: ' gng',
-    description: "team description",
-    dateCreation:  new Date('04-2-2020'),
-    participatingTournaments : ["Tournament 1", "Tournament 2", "Tournament 3"],
-    rolesAndResponsibilities: ["Tournament 1", "Tournament 2", "Tournament 3"],
-  },
-];
 
 @Component({
   templateUrl: './team.component.html',
@@ -74,25 +16,37 @@ const teams = [
 export class AppTeamComponent implements AfterViewInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   searchText: any;
+  teams: Team[] = [];
+  role: any = localStorage.getItem('role');
   displayedColumns: string[] = [
     '#',
     'teamName',
     'description',
     'dateCreation',
-    'participatingTournaments',
-    'participatingTournaments',
     'action'
 
   ];
-  dataSource = new MatTableDataSource(teams);
+  dataSource = new MatTableDataSource(this.teams);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceTeam : TeamService) { }
 
   ngAfterViewInit(): void {
+    this.loadTeams()
     this.dataSource.paginator = this.paginator;
   }
-
+  loadTeams() {
+    this.serviceTeam.getAllTeams().subscribe({
+      next: (res: any) => {  
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.teams = res;  
+        this.dataSource.data = this.teams; 
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+  }
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -115,14 +69,15 @@ export class AppTeamComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   addRowData(row_obj: Team): void {
-    this.dataSource.data.unshift({
-      idTeam: teams.length + 1,
-      teamName: row_obj.teamName,
-      description: row_obj.description,
-      dateCreation: row_obj.dateCreation,
-      participatingTournaments: row_obj.participatingTournaments,
-      rolesAndResponsibilities:row_obj.rolesAndResponsibilities
-    
+    this.serviceTeam.addTeam(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadTeams()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddTeamComponent);
     this.table.renderRows();
@@ -130,22 +85,28 @@ export class AppTeamComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   updateRowData(row_obj: Team): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      if (value.idTeam === row_obj.idTeam) {
-        value.teamName = row_obj.teamName;
-        value.description = row_obj.description;
-        value.dateCreation = row_obj.dateCreation;
-        value.participatingTournaments = row_obj.participatingTournaments;
-        value.rolesAndResponsibilities=row_obj.rolesAndResponsibilities;
+    this.serviceTeam.updateTeam(row_obj.id,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadTeams()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
       }
-      return true;
     });
   }
 
   // tslint:disable-next-line - Disables all
   deleteRowData(row_obj: Team): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.idTeam !== row_obj.idTeam;
+    this.serviceTeam.deleteTeam(row_obj.id).subscribe({
+      next: () => {
+        this.loadTeams()
+        console.log('User deleted successfully.');
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+      }
     });
   }
 }

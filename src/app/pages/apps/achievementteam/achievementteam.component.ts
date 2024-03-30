@@ -4,50 +4,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddAchievementPlayerComponent } from '../achievementplayer/add/add.component';
-
-
-
-
-export interface Achivment {
-  idAchivementsTeam: number;
-  tournamentName: string;
-  Trophie: string[];
-  dateAchived: Date;
-  achievementRank: string;
-teamname?:string;
-}
-
-const achivments = [
-  {
-    idAchivementsTeam: 1,
-    tournamentName: 'lol',
-    Trophie: ['First Place Trophy', 'Second Place Trophy'],
-    dateAchived: new Date('2023-01-15'),
-    achievementRank: 'bronze2',
-  },
-  {
-    idAchivementsTeam: 2,
-    tournamentName: 'valo',
-    Trophie: ['First Place Trophy', 'Second Place Trophy'],
-    dateAchived: new Date('2023-01-15'),
-    achievementRank: 'bronze2',
-  },
-  {
-    idAchivementsTeam: 3,
-    tournamentName: 'csgo',
-    Trophie: ['First Place Trophy', 'Second Place Trophy'],
-    dateAchived: new Date('2023-01-15'),
-    achievementRank: 'bronze2',
-  },
-  {
-    idAchivementsTeam: 4,
-    tournamentName: 'wow',
-    Trophie: ['First Place Trophy', 'Second Place Trophy'],
-    dateAchived: new Date('2023-01-15'),
-    achievementRank: 'bronze2',
-  },
-];
-
+import { AchievementsTeam } from 'src/app/models/AchievementsTeam';
+import { AchievementsteamService } from '../services/achievementsteam.service';
+ 
+ 
 @Component({
   templateUrl: './achievementteam.component.html',
 })
@@ -57,21 +17,35 @@ export class AppAchievementTeamComponent implements AfterViewInit {
   displayedColumns: string[] = [
     '#',
     'tournamentName',
-    'Trophie',
-    'dateAchived',
-    'achievementRank',
+    'rank',
+    'dateAchieved',
     'action'
 
   ];
-  dataSource = new MatTableDataSource(achivments);
+  achievements: AchievementsTeam[] = [];
+
+  dataSource = new MatTableDataSource(this.achievements);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceAchievements: AchievementsteamService) { }
 
   ngAfterViewInit(): void {
+    this.loadAchievements();
     this.dataSource.paginator = this.paginator;
   }
 
+  loadAchievements() {
+    this.serviceAchievements.getAllAchievementsTeams().subscribe({
+      next: (res: any) => { // Specify the type of 'res' as 'any[]'
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.achievements = res; // Parse the response
+        this.dataSource.data = this.achievements ; // Update the dataSource with the new data
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+  }
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -93,37 +67,45 @@ export class AppAchievementTeamComponent implements AfterViewInit {
   }
 
   // tslint:disable-next-line - Disables all
-  addRowData(row_obj: Achivment): void {
-    this.dataSource.data.unshift({
-      idAchivementsTeam: achivments.length + 1,
-      tournamentName: row_obj.tournamentName,
-      Trophie: row_obj.Trophie,
-      dateAchived: new Date(),
-      achievementRank: row_obj.achievementRank,
-      
-     
+  addRowData(row_obj: AchievementsTeam): void {
+    this.serviceAchievements.addAchievementsTeam(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadAchievements()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddAchievementPlayerComponent);
     this.table.renderRows();
   }
 
   // tslint:disable-next-line - Disables all
-  updateRowData(row_obj: Achivment): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      if (value.idAchivementsTeam === row_obj.idAchivementsTeam) {
-        value.tournamentName = row_obj.tournamentName;
-        value.Trophie = row_obj.Trophie;
-        value.dateAchived = row_obj.dateAchived;
-        value.achievementRank = row_obj.achievementRank;
+  updateRowData(row_obj: AchievementsTeam): boolean | any {
+    this.serviceAchievements.updateAchievementsTeam(row_obj.id,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadAchievements()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
       }
-      return true;
     });
   }
 
   // tslint:disable-next-line - Disables all
-  deleteRowData(row_obj: Achivment): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.idAchivementsTeam !== row_obj.idAchivementsTeam;
+  deleteRowData(row_obj: AchievementsTeam): boolean | any {
+    this.serviceAchievements.deleteAchievementsTeam(row_obj.id).subscribe({
+      next: () => {
+        this.loadAchievements()
+        console.log('User deleted successfully.');
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+      }
     });
   }
 }
@@ -145,7 +127,7 @@ export class AppAchievementTeamDialogContentComponent {
     public datePipe: DatePipe,
     public dialogRef: MatDialogRef<AppAchievementTeamDialogContentComponent>,
     // @Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Achivment,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: AchievementsTeam,
   ) {
     this.local_data = { ...data };
     this.action = this.local_data.action;

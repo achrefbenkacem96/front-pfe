@@ -3,6 +3,7 @@ import { CoreService } from 'src/app/services/core.service';
 import { FormGroup, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MaterialModule } from '../../../material.module';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-side-forgot-password',
@@ -13,7 +14,7 @@ import { MaterialModule } from '../../../material.module';
 export class AppSideForgotPasswordComponent {
   options = this.settings.getOptions();
 
-  constructor(private settings: CoreService, private router: Router) { }
+  constructor(private settings: CoreService, private router: Router, private authentication: AuthenticationService) { }
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required]),
@@ -24,7 +25,8 @@ export class AppSideForgotPasswordComponent {
   }
 
   submit() {
-    // console.log(this.form.value);
-    this.router.navigate(['/dashboards/dashboard1']);
+    console.log(this.form.value);
+    this.authentication.requestPasswordReset(this.form.value.email).subscribe()
+    // this.router.navigate(['/authentication/reset-pwd']);
   }
 }

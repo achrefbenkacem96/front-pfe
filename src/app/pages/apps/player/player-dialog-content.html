@@ -67,7 +67,7 @@
           />
         </mat-form-field>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
             type="date"
@@ -80,7 +80,7 @@
           />
         </mat-form-field>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
             type="text"
@@ -93,7 +93,7 @@
           />
         </mat-form-field>
       </div>
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
             type="text"
@@ -104,7 +104,7 @@
             [(ngModel)]="local_data.inGameName"
             placeholder="inGameName"
           />
-        </mat-form-field>
+        </mat-form-field> </div><div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
             type="text"
@@ -115,7 +115,7 @@
             [(ngModel)]="local_data.jerseySize"
             placeholder="jerseySize"
           />
-        </mat-form-field>
+        </mat-form-field></div><div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
             type="text"
@@ -126,7 +126,7 @@
             [(ngModel)]="local_data.mailAdress"
             placeholder="mailAdress"
           />
-        </mat-form-field>
+        </mat-form-field></div><div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
             type="number"
@@ -137,7 +137,7 @@
             [(ngModel)]="local_data.salary"
             placeholder="salary"
           />
-        </mat-form-field>
+        </mat-form-field></div><div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
             type="text"
@@ -148,7 +148,7 @@
             [(ngModel)]="local_data.socialMediaLinks"
             placeholder="socialMediaLinks"
           />
-        </mat-form-field>
+        </mat-form-field></div><div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
             type="text"
@@ -159,8 +159,8 @@
             [(ngModel)]="local_data.whatsappPhone"
             placeholder="whatsappPhone"
           />
-        </mat-form-field>
-      </div>
+        </mat-form-field></div>
+     
 
 
 
@@ -170,7 +170,16 @@
 
       
     </div>
-    <button
+    <div class="d-flex justify-content-between">
+      <button
+        mat-stroked-button
+        color="warn"
+        class="m-l-8"
+        (click)="closeDialog()"
+      >
+        Cancel
+      </button>
+      <button
       mat-flat-button
       (click)="doAction()"
       mat-flat-button
@@ -179,14 +188,7 @@
     >
       {{action}}
     </button>
-    <button
-      mat-stroked-button
-      color="warn"
-      class="m-l-8"
-      (click)="closeDialog()"
-    >
-      Cancel
-    </button>
+    </div>
   </form>
 </mat-dialog-content>
 } @else {

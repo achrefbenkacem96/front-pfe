@@ -1,6 +1,7 @@
+import { User } from "./User";
+
 export class Coach {
-    idCoach?: number;  
-    coachName?: string;
-    email?: string;
-    rapport?: string;
+  id: number;
+  rapport: string;
+  user: User; 
   }

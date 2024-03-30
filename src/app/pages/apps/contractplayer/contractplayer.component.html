@@ -32,46 +32,46 @@
 
         
 
-        <ng-container matColumnDef="detailsContractuels">
+        <ng-container matColumnDef="detailContActuel">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            detailsContractuels
+            Detail ContActuel
           </th>
-          <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.detailsContractuels }}</td>
+          <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.detailContActuel }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="termesFinanciers">
+        <ng-container matColumnDef="termeFinancier">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            termesFinanciers
+            Terme Financier
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.termesFinanciers }}
+            {{ element.termeFinancier }}
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="datecontract">
+        <ng-container matColumnDef="clauseSpecifiques">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            datecontract
+            Clause Specifiques
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.datecontract | date : "fullDate" }}
+            {{ element.clauseSpecifiques  }}
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="objectifs">
+        <ng-container matColumnDef="date">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            objectifs
+            Date
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.objectifs }}
+            {{ element.date  | date : "fullDate" }}
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="clausesSpecifiques">
+        <ng-container matColumnDef="objectif">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            clausesSpecifiques
+            Objectif
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.clausesSpecifiques }}
+            {{ element.objectif }}
           </td>
         </ng-container>
 

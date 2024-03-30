@@ -59,6 +59,11 @@ switch (role) {
         route: 'apps/achievementplayer',
       },
       {
+        displayName: 'AchivmentTeam',
+        iconName: 'brand-ctemplar',
+        route: 'apps/achievementteam',
+      },
+      {
         displayName: 'User',
         iconName: 'brand-ctemplar',
         route: 'apps/user',
@@ -99,15 +104,21 @@ switch (role) {
         route: 'apps/SessionTraining',
       },
       {
+        displayName: 'sponsor',
+        iconName: 'brand-ctemplar',
+        route: 'apps/sponsor',
+      },
+      {
+        displayName: 'Sponsor Team',
+        iconName: 'brand-ctemplar',
+        route: 'apps/sponsor-team',
+      },
+      {
         displayName: 'Coach',
         iconName: 'brand-ctemplar',
         route: 'apps/coach',
       },
-      {
-        displayName: 'AchivmentTeam',
-        iconName: 'brand-ctemplar',
-        route: 'apps/achievementteam',
-      },
+     
       {
         displayName: 'Player',
         iconName: 'brand-ctemplar',

@@ -4,68 +4,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddSessionTrainingComponent } from './add/add.component';
+import { SeanceEntrainement } from 'src/app/models/SeanceEntrainement';
+import { SeanceEntrainementService } from '../services/seance-entrainement.service';
 
 
 
 
-export interface SessionTraining {
-  idSession: number;
-  sessionName: string;
-  dateStart: Date;
-  dateEnd: Date;
-  objectifs: string[];
-  feedbacksEntraineurs: string;
-}
-
-const SessionTrainings= [
-  {
-    idSession: 1,
-  sessionName: "session",
-  dateStart:new Date('04-2-2020'),
-  dateEnd:new Date('04-2-2020'),
-  objectifs: ["kkhkk","kki"],
-  feedbacksEntraineurs: "feedback"
-
-  },
-  {
-    idSession: 2,
-  sessionName: "session",
-  dateStart:new Date('04-2-2020'),
-  dateEnd:new Date('04-2-2020'),
-  objectifs: ["kkhkk","kki"],
-  feedbacksEntraineurs: "feedback"
-
-  },
-  {
-    idSession: 3,
-  sessionName: "session",
-  dateStart:new Date('04-2-2020'),
-  dateEnd:new Date('04-2-2020'),
-  objectifs: ["kkhkk","kki"],
-  feedbacksEntraineurs: "feedback"
-
-  },
-  {
-    idSession: 4,
-  sessionName: "session",
-  dateStart:new Date('04-2-2020'),
-  dateEnd:new Date('04-2-2020'),
-  objectifs: ["kkhkk","kki"],
-  feedbacksEntraineurs: "feedback"
-
-  },
-  {
-    idSession: 6,
-  sessionName: "session",
-  dateStart:new Date('04-2-2020'),
-  dateEnd:new Date('04-2-2020'),
-  objectifs: ["kkhkk","kki"],
-  feedbacksEntraineurs: "feedback"
-
-  },
  
- 
-];
 
 @Component({
   templateUrl: './SessionTraining.component.html',
@@ -73,9 +18,10 @@ const SessionTrainings= [
 export class AppSessionTrainingComponent implements AfterViewInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   searchText: any;
+  seanceEntrainement: SeanceEntrainement[] = [];
+  role: any = localStorage.getItem('role');
   displayedColumns: string[] = [
-    '#',
-    'sessionName',
+    '#', 
     'dateStart',
     'dateEnd',
     'objectifs',
@@ -83,15 +29,28 @@ export class AppSessionTrainingComponent implements AfterViewInit {
     'action'
 
   ];
-  dataSource = new MatTableDataSource(SessionTrainings);
+  dataSource = new MatTableDataSource(this.seanceEntrainement);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceSeanceEntrainement: SeanceEntrainementService) { }
 
   ngAfterViewInit(): void {
+    this.loadData();
+
     this.dataSource.paginator = this.paginator;
   }
-
+  loadData() {
+    this.serviceSeanceEntrainement.getAllSeanceEntrainements().subscribe({
+      next: (res: any) => {  
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.seanceEntrainement = res;  
+        this.dataSource.data = this.seanceEntrainement; 
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+  }
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -113,38 +72,39 @@ export class AppSessionTrainingComponent implements AfterViewInit {
   }
 
   // tslint:disable-next-line - Disables all
-  addRowData(row_obj: SessionTraining): void {
-    this.dataSource.data.unshift({
-      idSession: SessionTrainings.length + 1,
-      sessionName: row_obj.sessionName  ,
-      dateStart: row_obj.dateStart,
-      dateEnd: row_obj.dateEnd,
-      objectifs: row_obj.objectifs,
-      feedbacksEntraineurs:row_obj.feedbacksEntraineurs,
-    
+  addRowData(row_obj: SeanceEntrainement): void {
+    this.serviceSeanceEntrainement.addSeanceEntrainement(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadData()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddSessionTrainingComponent);
     this.table.renderRows();
   }
 
   // tslint:disable-next-line - Disables all
-  updateRowData(row_obj: SessionTraining): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      if (value.idSession === row_obj.idSession) {
-        value.sessionName = row_obj.sessionName;
-        value.dateStart = row_obj.dateStart;
-        value.dateEnd = row_obj.dateEnd;
-        value.objectifs = row_obj.objectifs;
-        value.feedbacksEntraineurs=row_obj.feedbacksEntraineurs;
+  updateRowData(row_obj: SeanceEntrainement): boolean | any {
+    this.serviceSeanceEntrainement.updateSeanceEntrainement(row_obj.id,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadData()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
       }
-      return true;
     });
   }
 
   // tslint:disable-next-line - Disables all
-  deleteRowData(row_obj: SessionTraining): boolean | any {
+  deleteRowData(row_obj: SeanceEntrainement): boolean | any {
     this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.idSession !== row_obj.idSession;
+      return value.idSession !== row_obj.id;
     });
   }
 }
@@ -166,7 +126,7 @@ export class AppSessionTrainingDialogContentComponent {
     public datePipe: DatePipe,
     public dialogRef: MatDialogRef<AppSessionTrainingDialogContentComponent>,
     // @Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: SessionTraining,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: SeanceEntrainement,
   ) {
     this.local_data = { ...data };
     this.action = this.local_data.action;

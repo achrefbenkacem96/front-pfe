@@ -25,11 +25,28 @@
   <mat-card-content class="p-24">
     <div class="table-responsive">
       <table mat-table [dataSource]="dataSource" class="w-100">
+
+        <ng-container matColumnDef="#">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            #
+          </th>
+          <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.idscrims }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="idSession">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            Session Id 
+          </th>
+          <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.idSession }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="description">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            description
+            Description
           </th>
-          <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.description }}</td>
+          <td mat-cell *matCellDef="let element" class="f-s-14">
+            {{ element.description }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="niveau">
@@ -37,7 +54,7 @@
             niveau
           </th>
           <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.niveau }}
+            {{ element.niveau}}
           </td>
         </ng-container>
 
@@ -49,27 +66,7 @@
             {{ element.mode}}
           </td>
         </ng-container>
-
-        <ng-container matColumnDef="specialObjectives">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            specialObjectives
-          </th>
-          <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.specialObjectives }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="scrimsPlayers">
-          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            scrimsPlayers
-          </th>
-          <td mat-cell *matCellDef="let element" class="f-s-14">
-            {{ element.scrimsPlayers }}
-          </td>
-        </ng-container>
-
-
-        
+ 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
             Action

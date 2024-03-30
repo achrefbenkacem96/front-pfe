@@ -4,93 +4,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddContractPlayerComponent } from './add/add.component';
+import { Contratplayer } from 'src/app/models/Contratplayer';
+import { ContratplayerService } from '../services/contratplayer.service';
 
 
-export interface Contract {
-  idContractPlayer: number;
-  detailsContractuels: string;
-  termesFinanciers: string;
-  clausesSpecifiques: string;
-  objectifs: string[];
-  datecontract: Date;
-  leagalefullname?: string;
-}
-
-const contracts = [
-  {
-    idContractPlayer: 1,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-  {
-    idContractPlayer: 2,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-  {
-    idContractPlayer: 3,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-  {
-    idContractPlayer: 4,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-  {
-    idContractPlayer: 5,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-  {
-    idContractPlayer: 6,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-  {
-    idContractPlayer: 7,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-  {
-    idContractPlayer: 8,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-  {
-    idContractPlayer: 9,
-    detailsContractuels: 'detailsContractuels1,detailsContractuels2',
-    termesFinanciers: 'Seo termesFinanciers1; termesFinanciers2',
-    clausesSpecifiques: 'clausesSpecifiques1,clausesSpecifiques2',
-    objectifs:  ["Apprendre TypeScript", "Construire une application web", "Maîtriser Node.js"],
-    datecontract: new Date('01-2-2020'),
-  },
-];
-
+ 
+ 
 @Component({
   templateUrl: './contractplayer.component.html',
 })
@@ -99,21 +18,37 @@ export class AppContractPlayerComponent implements AfterViewInit {
   searchText: any;
   displayedColumns: string[] = [
     '#',
-    'detailsContractuels',
-    'termesFinanciers',
-    'clausesSpecifiques',
-    'objectifs',
-    'datecontract',
+    'detailContActuel',
+    'termeFinancier',
+    'clauseSpecifiques',
+    'date',
+    'objectif',
     'action'
 
   ];
-  dataSource = new MatTableDataSource(contracts);
+  contracts: Contratplayer[] = [];
+
+  dataSource = new MatTableDataSource(this.contracts);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceContract: ContratplayerService) { }
 
   ngAfterViewInit(): void {
+    this.loadContrats();
     this.dataSource.paginator = this.paginator;
+  }
+
+  loadContrats() {
+    this.serviceContract.getAllContratplayers().subscribe({
+      next: (res: any) => { // Specify the type of 'res' as 'any[]'
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.contracts = res;  
+        this.dataSource.data = this.contracts;  
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
   }
 
   applyFilter(filterValue: string): void {
@@ -137,37 +72,45 @@ export class AppContractPlayerComponent implements AfterViewInit {
   }
 
   // tslint:disable-next-line - Disables all
-  addRowData(row_obj: Contract): void {
-    this.dataSource.data.unshift({
-      idContractPlayer: contracts.length + 1,
-      detailsContractuels: row_obj.detailsContractuels,
-      termesFinanciers: row_obj.termesFinanciers,
-      clausesSpecifiques: row_obj.clausesSpecifiques,
-      objectifs: row_obj.objectifs,
-      datecontract: new Date(),
+  addRowData(row_obj: Contratplayer): void {
+    this.serviceContract.addContratplayer(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadContrats()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddContractPlayerComponent);
     this.table.renderRows();
   }
 
   // tslint:disable-next-line - Disables all
-  updateRowData(row_obj: Contract): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      if (value.idContractPlayer === row_obj.idContractPlayer) {
-        value.detailsContractuels = row_obj.detailsContractuels;
-        value.termesFinanciers = row_obj.termesFinanciers;
-        value.clausesSpecifiques = row_obj.clausesSpecifiques;
-        value.objectifs = row_obj.objectifs;
-        value.datecontract = row_obj.datecontract;
+  updateRowData(row_obj: Contratplayer): boolean | any {
+    this.serviceContract.updateContratplayer(row_obj.id,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadContrats()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
       }
-      return true;
     });
   }
 
   // tslint:disable-next-line - Disables all
-  deleteRowData(row_obj: Contract): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.idContractPlayer !== row_obj.idContractPlayer;
+  deleteRowData(row_obj: Contratplayer): boolean | any {
+    this.serviceContract.deleteContratplayer(row_obj.id).subscribe({
+      next: () => {
+        this.loadContrats()
+        console.log('User deleted successfully.');
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+      }
     });
   }
 }
@@ -189,7 +132,7 @@ export class AppContractPlayerDialogContentComponent {
     public datePipe: DatePipe,
     public dialogRef: MatDialogRef<AppContractPlayerDialogContentComponent>,
     // @Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Contract,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: Contratplayer,
   ) {
     this.local_data = { ...data };
     this.action = this.local_data.action;

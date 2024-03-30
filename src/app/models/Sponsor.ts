@@ -1,5 +1,8 @@
+import { User } from "./User";
+
 export class Sponsor {
-    idSponsor?: number;  
-    DetailContractuels?: string;
-    termsFinancieres?: string;
+    id: number;
+    detailsContractuel: string;
+    termesFinancieres: string;
+    user?: User;
    }

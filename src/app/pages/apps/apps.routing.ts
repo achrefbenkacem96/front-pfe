@@ -33,6 +33,8 @@ import { AppDefiComponent } from './defi/defi.component';
 import { AppTournamentComponent } from './Tournament/tournament.component';
 import { AppScrimsComponent } from './Scrims/scrims.component';
 import { AppSessionTrainingComponent } from './SessionTraining/SessionTraining.component';
+import { AppSponsorComponent } from './sponsor/sponsor.component';
+import { AppSponsorTeamComponent } from './sponsorTeam/sponsorTeam.component';
 
 
 export const AppsRoutes: Routes = [
@@ -270,6 +272,28 @@ export const AppsRoutes: Routes = [
           urls: [
             { title: 'Dashboard', url: '/dashboards/dashboard1' },
             { title: 'Manager' },
+          ],
+        },
+      },
+      {
+        path: 'sponsor',
+        component: AppSponsorComponent,
+        data: {
+          title: 'Sponsor',
+          urls: [
+            { title: 'Dashboard', url: '/dashboards/dashboard1' },
+            { title: 'Sponsor' },
+          ],
+        },
+      },
+      {
+        path: 'sponsor-team',
+        component: AppSponsorTeamComponent,
+        data: {
+          title: 'Sponsor Team',
+          urls: [
+            { title: 'Dashboard', url: '/dashboards/dashboard1' },
+            { title: 'Sponsor Team' },
           ],
         },
       },

@@ -1,18 +1,19 @@
 import { Admin } from "./Admin";
 import { Coach } from "./Coach";
+import { FileDB } from "./FileDB";
 import { Manager } from "./Manager";
 import { Player } from "./Player";
+import { Role } from "./Role";
 import { Sponsor } from "./Sponsor";
 
 export class User {
-    idUser?: number;  
-    password?: string;
-    role?: string;
-    email?: string;
-    enabled?:Boolean;
-    Coach?:Coach;
-    Player?:Player;
-    Manager?:Manager;
-    Sponsor?:Sponsor;
-    admin?:Admin;
-  }
+  id: number;
+  username: string;
+  password: string;
+  email: string;
+  enable: boolean;
+  image: FileDB;
+  roles: Role[];
+
+ 
+}

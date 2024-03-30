@@ -4,60 +4,45 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddManagerComponent } from './add/add.component';
-export interface Manager {
-  idManager: number;
-  managerName: string;
-}
-
-const managers = [
-  {
-    idManager: 1,
-    managerName: 'John Doe',
-  },
-  {
-    idManager: 2,
-    managerName: 'John Doe',
-  },
-  {
-    idManager: 3,
-    managerName: 'John Doe',
-  },
-  {
-    idManager: 4,
-    managerName: 'John Doe',
-  },
-  {
-    idManager: 5,
-    managerName: 'John Doe',
-  },
-  {
-    idManager: 6,
-    managerName: 'John Doe',
-  },
+import { Manager } from 'src/app/models/Manager';
+import { ManagerService } from '../services/manager.service';
   
-];
-
 @Component({
   templateUrl: './manager.component.html',
 })
 export class AppManagerComponent implements AfterViewInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   searchText: any;
+  managers: Manager[]= [];
   displayedColumns: string[] = [
     '#',
-    'managerName',
+    'name',
+    'dateOfBirth',
     'action'
 
   ];
-  dataSource = new MatTableDataSource(managers);
+  dataSource = new MatTableDataSource(this.managers);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceManager: ManagerService) { }
 
   ngAfterViewInit(): void {
+    this.loadManagers()
+
     this.dataSource.paginator = this.paginator;
   }
-
+  loadManagers() {
+    this.serviceManager.getAllManagers().subscribe({
+      next: (res: any) => { // Specify the type of 'res' as 'any[]'
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.managers = res; // Parse the response
+        this.dataSource.data = this.managers; // Update the dataSource with the new data
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+  }
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -80,11 +65,15 @@ export class AppManagerComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   addRowData(row_obj: Manager): void {
-    this.dataSource.data.unshift({
-      idManager: managers.length + 1,
-      managerName: row_obj.managerName,
-  
-     
+    this.serviceManager.addManager(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadManagers()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddManagerComponent);
     this.table.renderRows();
@@ -92,18 +81,28 @@ export class AppManagerComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   updateRowData(row_obj: Manager): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      if (value.idManager === row_obj.idManager) {
-        value.managerName = row_obj.managerName;
+    this.serviceManager.updateManager(row_obj.id,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadManagers()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
       }
-      return true;
     });
   }
 
   // tslint:disable-next-line - Disables all
   deleteRowData(row_obj: Manager): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.idManager !== row_obj.idManager;
+    this.serviceManager.deleteManager(row_obj.id).subscribe({
+      next: () => {
+        this.loadManagers()
+        console.log('User deleted successfully.');
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+      }
     });
   }
 }

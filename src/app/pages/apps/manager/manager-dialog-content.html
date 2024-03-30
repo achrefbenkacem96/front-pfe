@@ -9,10 +9,23 @@
             type="text"
             matInput
             required
-            id="managerName"
-            name="managerName"
-            [(ngModel)]="local_data.managerName"
-            placeholder="managerName"
+            id="name"
+            name="name"
+            [(ngModel)]="local_data.name"
+            placeholder="Name"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <input
+            type="text"
+            matInput
+            required
+            id="dateOfBirth"
+            name="dateOfBirth"
+            [(ngModel)]="local_data.dateOfBirth"
+            placeholder="Date Of Birth"
           />
         </mat-form-field>
       </div>

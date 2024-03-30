@@ -1,6 +1,8 @@
+import { User } from "./User";
+
 export class Manager {
-    idManager?: number;  
-    managerName?: string;
-    email?: string;
-    role: string;
+  id: number;
+  nameManager: string;
+  dateOfBirth: Date;
+  user: User;
   }

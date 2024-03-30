@@ -27,16 +27,23 @@
       <table mat-table [dataSource]="dataSource" class="w-100">
         <ng-container matColumnDef="#">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">#</th>
-          <td mat-cell *matCellDef="let element">{{ element.idManager }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
         </ng-container>
 
         
 
-        <ng-container matColumnDef="managerName">
+        <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
-            managerName
+            Name
           </th>
-          <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.managerName }}</td>
+          <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.nameManager }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateOfBirth">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            Date Of Birth
+          </th>
+          <td mat-cell *matCellDef="let element" class="f-s-14">{{ element.dateOfBirth }}</td>
         </ng-container>
 
        

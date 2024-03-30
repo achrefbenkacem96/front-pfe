@@ -17,81 +17,6 @@ export interface User {
   roles: string;
 }
 
-// const users = [
-//   {
-//     userId: 1,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-//   {
-//     userId: 2,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-//   {
-//     userId: 3,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-//   {
-//     userId: 4,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-//   {
-//     userId: 5,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-//   {
-//     userId: 6,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-//   {
-//     userId: 7,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-//   {
-//     userId: 8,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-//   {
-//     userId: 9,
-//     username: 'John Doe',
-//     password: "password",
-//     enabled:false,
-//     email: 'user@gmail.com',
-//     roles: "Admine",
-//   },
-// ];
-
 @Component({
   templateUrl: './user.component.html',
 })
@@ -103,7 +28,6 @@ export class AppUserComponent implements AfterViewInit {
   displayedColumns: string[] = [
     '#',
     'username',
-
     'enable',
     'email',
     'roles',

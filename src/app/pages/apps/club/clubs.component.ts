@@ -4,50 +4,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddClubComponent } from './add/add.component';
+import { Club } from 'src/app/models/Club';
+import { ClubService } from '../services/club.service';
 
 
 
-
-export interface Club {
-  idClub: number;
-  clubName: string;
-  description: string;
-  dateCreation: Date;
-}
-
-const clubs = [
-  {
-    idClub: 1,
-    clubName: ' Gark',
-    description: "Gark description",
-    dateCreation:  new Date('04-2-2020'),
-  },
  
-  {
-    idClub: 2,
-    clubName: ' Gark',
-    description: "Gark description",
-    dateCreation:  new Date('04-2-2020'),
-  },
-  {
-    idClub: 3,
-    clubName: ' Gark',
-    description: "Gark description",
-    dateCreation:  new Date('04-2-2020'),
-  },
-  {
-    idClub: 4,
-    clubName: ' Gark',
-    description: "Gark description",
-    dateCreation:  new Date('04-2-2020'),
-  },
-  {
-    idClub: 5,
-    clubName: ' Gark',
-    description: "Gark description",
-    dateCreation:  new Date('04-2-2020'),
-  },
-];
+
 
 @Component({
   templateUrl: './club.component.html',
@@ -57,19 +20,35 @@ export class AppClubComponent implements AfterViewInit {
   searchText: any;
   displayedColumns: string[] = [
     '#',
-    'clubName',
+    'name',
     'description',
     'dateCreation',
     'action'
 
   ];
-  dataSource = new MatTableDataSource(clubs);
+  clubs: Club[] = [];
+
+  dataSource = new MatTableDataSource(this.clubs);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceClub: ClubService) { }
 
   ngAfterViewInit(): void {
+    this.loadClubs();
     this.dataSource.paginator = this.paginator;
+  }
+
+  loadClubs() {
+    this.serviceClub.getAllClubs().subscribe({
+      next: (res: any) => { // Specify the type of 'res' as 'any[]'
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.clubs = res;  
+        this.dataSource.data = this.clubs;  
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
   }
 
   applyFilter(filterValue: string): void {
@@ -94,11 +73,15 @@ export class AppClubComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   addRowData(row_obj: Club): void {
-    this.dataSource.data.unshift({
-      idClub: clubs.length + 1,
-      clubName: row_obj.clubName,
-      description: row_obj.description,
-      dateCreation: row_obj.dateCreation,
+    this.serviceClub.addClub(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadClubs()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddClubComponent);
     this.table.renderRows();
@@ -106,20 +89,28 @@ export class AppClubComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   updateRowData(row_obj: Club): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      if (value.idClub === row_obj.idClub) {
-        value.clubName = row_obj.clubName;
-        value.description = row_obj.description;
-        value.dateCreation = row_obj.dateCreation;
+    this.serviceClub.updateClub(row_obj.id,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadClubs()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
       }
-      return true;
     });
   }
 
   // tslint:disable-next-line - Disables all
   deleteRowData(row_obj: Club): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.idClub !== row_obj.idClub;
+    this.serviceClub.deleteClub(row_obj.id).subscribe({
+      next: () => {
+        this.loadClubs()
+        console.log('User deleted successfully.');
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+      }
     });
   }
 }

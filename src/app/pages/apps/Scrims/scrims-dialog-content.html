@@ -9,10 +9,23 @@
             type="text"
             matInput
             required
+            id="idSession"
+            name="idSession"
+            [(ngModel)]="local_data.idSession"
+            placeholder="Session"
+          />
+        </mat-form-field>
+      </div>
+      <div class="col-lg-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <input
+            type="text"
+            matInput
+            required
             id="description"
             name="description"
             [(ngModel)]="local_data.description"
-            placeholder="description"
+            placeholder="Description"
           />
         </mat-form-field>
       </div>
@@ -25,7 +38,7 @@
             id="niveau"
             name="niveau"
             [(ngModel)]="local_data.niveau"
-            placeholder="niveau"
+            placeholder="Niveau"
           />
         </mat-form-field>
       </div>
@@ -41,37 +54,11 @@
             id="mode"
             name="mode"
             [(ngModel)]="local_data.mode"
-            placeholder="mode"
+            placeholder="Mode"
           />
         </mat-form-field>
       </div>
-
-      <div class="col-lg-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <input
-            type="text"
-            placeholder="specialObjectives"
-            matInput
-            required
-            id="specialObjectives"
-            name="specialObjectives"
-            [(ngModel)]="local_data.specialObjectives"
-          />
-        </mat-form-field>
-      </div>
-      <div class="col-lg-4">
-        <mat-form-field appearance="outline" class="w-100">
-          <input
-            type="text"
-            placeholder="scrimsPlayers"
-            matInput
-            required
-            id="scrimsPlayers"    
-            name="scrimsPlayers"
-            [(ngModel)]="local_data.scrimsPlayers "
-          />
-        </mat-form-field>
-      </div>
+ 
       
     </div>
     <button

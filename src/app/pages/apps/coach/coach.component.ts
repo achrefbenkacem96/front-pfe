@@ -4,72 +4,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { AppAddCoachComponent } from './add/add.component';
+import { Coach } from 'src/app/models/Coach';
+import { CoachService } from '../services/coach.service';
 
 
 
 
 
-
-export interface Coach {
-  idCoach: number;
-  nameCoach: string;
-  password: string;
-  email: string;
-  Rapport: string;
-}
-
-const coachs = [
-  {
-    idCoach: 1,
-    nameCoach: 'John Doe',
-    email: 'coach@gmail.com',
-    Rapport:'rapport',
-   
-  },
-  {
-    idCoach: 2,
-    nameCoach: 'John Doe',
-    email: 'coach@gmail.com',
-    Rapport:'rapport',
-   
-  },
-  {
-    idCoach: 3,
-    nameCoach: 'John Doe',
-    email: 'coach@gmail.com',
-    Rapport:'rapport',
-   
-  },
-  {
-    idCoach: 4,
-    nameCoach: 'John Doe',
-    email: 'coach@gmail.com',
-    Rapport:'rapport',
-   
-  },
-  {
-    idCoach: 5,
-    nameCoach: 'John Doe',
-    email: 'coach@gmail.com',
-    Rapport:'rapport',
-   
-  },
-  {
-    idCoach: 6,
-    nameCoach: 'John Doe',
-    email: 'coach@gmail.com',
-    Rapport:'rapport',
-   
-  },
-  {
-    idCoach: 7,
-    nameCoach: 'John Doe',
-    email: 'coach@gmail.com',
-    Rapport:'rapport',
-   
-  },
-
-];
+ 
 
 @Component({
   templateUrl: './coach.component.html',
@@ -77,23 +19,36 @@ const coachs = [
 export class AppCoachComponent implements AfterViewInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
   searchText: any;
+  coachs: Coach[] = [];
+  role: any = localStorage.getItem('role');
   displayedColumns: string[] = [
     '#',
-    'nameCoach',
-    'email',
-    'Rapport',
+    'rapport' ,
     'action'
-
   ];
-  dataSource = new MatTableDataSource(coachs);
+  dataSource = new MatTableDataSource(this.coachs);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public servicCoach: CoachService) { }
 
   ngAfterViewInit(): void {
+    this.loadUsers()
+
     this.dataSource.paginator = this.paginator;
   }
 
+  loadUsers() {
+    this.servicCoach.getAllCoaches().subscribe({
+      next: (res: any) => {  
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.coachs =res;  
+        this.dataSource.data = this.coachs;  
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+  }
   applyFilter(filterValue: string): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
@@ -116,13 +71,15 @@ export class AppCoachComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   addRowData(row_obj: Coach): void {
-    this.dataSource.data.unshift({
-      idCoach: coachs.length + 1,
-      nameCoach: row_obj.nameCoach,
-      email: row_obj.email,
-      Rapport: row_obj.Rapport,
-  
-     
+    this.servicCoach.addCoach(row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadUsers()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
+      }
     });
     this.dialog.open(AppAddCoachComponent);
     this.table.renderRows();
@@ -130,20 +87,28 @@ export class AppCoachComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   updateRowData(row_obj: Coach): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      if (value.idCoach === row_obj.idCoach) {
-        value.nameCoach = row_obj.nameCoach;
-        value.email = row_obj.email;
-        value.Rapport = row_obj.Rapport;
+    this.servicCoach.updateCoach(row_obj.id,row_obj).subscribe({
+      next: (response) => {
+        console.log("User added successfully:", response);
+        this.loadUsers()
+      },
+      error: (error) => {
+        console.error("Error adding user:", error);
+        // Optionally handle error response here
       }
-      return true;
     });
   }
 
   // tslint:disable-next-line - Disables all
   deleteRowData(row_obj: Coach): boolean | any {
-    this.dataSource.data = this.dataSource.data.filter((value: any) => {
-      return value.idCoach !== row_obj.idCoach;
+    this.servicCoach.deleteCoach(row_obj.id).subscribe({
+      next: () => {
+        this.loadUsers()
+        console.log('User deleted successfully.');
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+      }
     });
   }
 }

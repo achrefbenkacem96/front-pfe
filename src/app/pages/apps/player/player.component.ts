@@ -36,6 +36,7 @@ export class AppPlayerComponent implements AfterViewInit {
   ];
   players: Player[] = [];
   role: any = localStorage.getItem('role');
+  userId: any = localStorage.getItem('userId');
   dataSource = new MatTableDataSource(this.players);
  
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
@@ -43,10 +44,30 @@ export class AppPlayerComponent implements AfterViewInit {
   constructor(public dialog: MatDialog, public datePipe: DatePipe, public servicePlayer: PlayerService) { }
 
   ngAfterViewInit(): void {
-    this.loadPlayers();
+    this.loadData();
     this.dataSource.paginator = this.paginator;
   }
-
+  loadData(){
+    if ( this.role == "ROLE_ADMIN" || this.role == "ROLE_MANAGER") {
+      this.loadPlayers()
+      
+    } else if ( this.role == "ROLE_PLAYER" ){
+      
+      this.getPlayerById() 
+    }
+  }
+  getPlayerById(){
+    this.servicePlayer.getPlayerById(this.userId).subscribe({
+      next: (res: any) => {  
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.players =[res];  
+        this.dataSource.data = this.players;  
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+  }
   loadPlayers() {
     this.servicePlayer.getAllPlayers().subscribe({
       next: (res: any) => { // Specify the type of 'res' as 'any[]'
@@ -85,7 +106,7 @@ export class AppPlayerComponent implements AfterViewInit {
     this.servicePlayer.addPlayer(row_obj).subscribe({
       next: (response) => {
         console.log("User added successfully:", response);
-        this.loadPlayers()
+        this.loadData()
       },
       error: (error) => {
         console.error("Error adding user:", error);
@@ -101,7 +122,7 @@ export class AppPlayerComponent implements AfterViewInit {
     this.servicePlayer.updatePlayer(row_obj.id,row_obj).subscribe({
       next: (response) => {
         console.log("User added successfully:", response);
-        this.loadPlayers()
+        this.loadData()
       },
       error: (error) => {
         console.error("Error adding user:", error);
@@ -114,7 +135,7 @@ export class AppPlayerComponent implements AfterViewInit {
   deleteRowData(row_obj: Player): boolean | any {
     this.servicePlayer.deletePlayer(row_obj.id).subscribe({
       next: () => {
-        this.loadPlayers()
+        this.loadData()
         console.log('User deleted successfully.');
       },
       error: (error) => {

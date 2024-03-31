@@ -21,6 +21,7 @@ export class AppCoachComponent implements AfterViewInit {
   searchText: any;
   coachs: Coach[] = [];
   role: any = localStorage.getItem('role');
+  userId: any = localStorage.getItem('userId');
   displayedColumns: string[] = [
     '#',
     'email' ,
@@ -34,11 +35,31 @@ export class AppCoachComponent implements AfterViewInit {
   constructor(public dialog: MatDialog, public datePipe: DatePipe, public servicCoach: CoachService) { }
 
   ngAfterViewInit(): void {
-    this.loadUsers()
-
+   
+    this.loadData()
     this.dataSource.paginator = this.paginator;
   }
-
+  loadData(){
+    if ( this.role == "ROLE_ADMIN" || this.role == "ROLE_MANAGER") {
+      this.loadUsers()
+      
+    } else if ( this.role == "ROLE_COACH" ){
+      
+      this.getCoachById() 
+    }
+  }
+  getCoachById(){
+    this.servicCoach.getCoachById(this.userId).subscribe({
+      next: (res: any) => {  
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.coachs =[res];  
+        this.dataSource.data = this.coachs;  
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+  }
   loadUsers() {
     this.servicCoach.getAllCoaches().subscribe({
       next: (res: any) => {  
@@ -76,7 +97,7 @@ export class AppCoachComponent implements AfterViewInit {
     this.servicCoach.addCoach(row_obj).subscribe({
       next: (response) => {
         console.log("User added successfully:", response);
-        this.loadUsers()
+        this.loadData()
       },
       error: (error) => {
         console.error("Error adding user:", error);
@@ -92,7 +113,7 @@ export class AppCoachComponent implements AfterViewInit {
     this.servicCoach.updateCoach(row_obj.id,row_obj).subscribe({
       next: (response) => {
         console.log("User added successfully:", response);
-        this.loadUsers()
+        this.loadData()
       },
       error: (error) => {
         console.error("Error adding user:", error);
@@ -105,7 +126,7 @@ export class AppCoachComponent implements AfterViewInit {
   deleteRowData(row_obj: Coach): boolean | any {
     this.servicCoach.deleteCoach(row_obj.id).subscribe({
       next: () => {
-        this.loadUsers()
+        this.loadData()
         console.log('User deleted successfully.');
       },
       error: (error) => {

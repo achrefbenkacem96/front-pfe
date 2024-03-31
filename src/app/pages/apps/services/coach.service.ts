@@ -27,7 +27,7 @@ export class CoachService {
     return this.httpClient.get<Coach[]>(`${this.apiUrl}/getCoach`, { headers });
   }
 
-  getCoachById(id: number): Observable<Coach> {
+  getCoachById(id: any): Observable<Coach> {
     const headers = this.getHeaders();
     return this.httpClient.get<Coach>(`${this.apiUrl}/getCoach/${id}`, { headers });
   }

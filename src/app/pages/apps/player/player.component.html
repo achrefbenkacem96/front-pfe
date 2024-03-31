@@ -13,11 +13,11 @@
           </mat-icon>
         </mat-form-field>
       </div>
-      <div *ngIf="role === 'ROLE_ADMIN' || role === 'manager'" class="col-lg-4 d-flex align-items-center justify-content-end">
+      <!-- <div *ngIf="role === 'ROLE_ADMIN' || role === 'manager'" class="col-lg-4 d-flex align-items-center justify-content-end">
         <button mat-flat-button (click)="openDialog('Add', {})" color="primary">
           Add Player
         </button>
-      </div>
+      </div> -->
     </div>
   </mat-card-content>
 </mat-card>
@@ -48,7 +48,7 @@
                 <p class="f-w-600 mat-subtitle-1 f-s-16 m-t-0">
                   {{ element.fullName }}
                 </p>
-                <small class="mat-body-1 f-s-14">{{ element.fullName }}</small>
+                <small class="mat-body-1 f-s-14">{{ element.inGameName }}</small>
               </div>
             </div>
           </td>

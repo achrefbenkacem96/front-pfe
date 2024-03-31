@@ -67,6 +67,8 @@ export class AppSponsorTeamComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   addRowData(row_obj: SponsorTeam ): void {
+  //@ts-ignore
+    row_obj.details =[row_obj.details]
     this.serviceSponsor.addSponsorTeam(row_obj).subscribe({
       next: (response) => {
         console.log("User added successfully:", response);
@@ -88,6 +90,8 @@ export class AppSponsorTeamComponent implements AfterViewInit {
       details: row_obj.details,
       id: row_obj.id
     };
+     //@ts-ignore
+     request.details =[row_obj.details]
     this.serviceSponsor.updateSponsorTeam(row_obj.id,request).subscribe({
       next: (response) => {
         console.log("User added successfully:", response);
@@ -135,9 +139,9 @@ export class AppSponsorTeamDialogContentComponent {
   ) {
     this.local_data = { ...data };
     this.action = this.local_data.action;
-    if (this.local_data.DateOfJoining !== undefined) {
-      this.joiningDate = this.datePipe.transform(
-        new Date(this.local_data.DateOfJoining),
+    if (this.local_data.date !== undefined) {
+      this.local_data.date = this.datePipe.transform(
+        new Date(this.local_data.date),
         'yyyy-MM-dd',
       );
     }

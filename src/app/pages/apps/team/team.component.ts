@@ -2,16 +2,24 @@ import { Component, Inject, Optional, ViewChild, AfterViewInit } from '@angular/
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { AppAddTeamComponent } from './add/add.component';
 import { Team } from 'src/app/models/Team';
 import { TeamService } from '../services/team.service';
+import { ClubService } from '../services/club.service';
+import { Observable, map, startWith } from 'rxjs';
+import { Club } from 'src/app/models/Club';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
  
 
 @Component({
   templateUrl: './team.component.html',
+ 
 })
 export class AppTeamComponent implements AfterViewInit {
   @ViewChild(MatTable, { static: true }) table: MatTable<any> = Object.create(null);
@@ -26,15 +34,22 @@ export class AppTeamComponent implements AfterViewInit {
     'action'
 
   ];
+
   dataSource = new MatTableDataSource(this.teams);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
-  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceTeam : TeamService) { }
+  constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceTeam : TeamService, public serviceClub: ClubService) { }
 
   ngAfterViewInit(): void {
-    this.loadTeams()
+    this.loadTeams();
+ 
+ 
     this.dataSource.paginator = this.paginator;
   }
+
+
+  
+
   loadTeams() {
     this.serviceTeam.getAllTeams().subscribe({
       next: (res: any) => {  
@@ -123,9 +138,13 @@ export class AppTeamDialogContentComponent {
   local_data: any;
   selectedImage: any = '';
   joiningDate: any = '';
+  filteredClubs: Observable<Club[]>;
+  myControl = new FormControl('');
+  clubs: Club[] = [];
 
   constructor(
     public datePipe: DatePipe,
+    public serviceClub: ClubService,
     public dialogRef: MatDialogRef<AppTeamDialogContentComponent>,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: Team,
@@ -141,8 +160,26 @@ export class AppTeamDialogContentComponent {
     if (this.local_data.imagePath === undefined) {
       this.local_data.imagePath = 'assets/images/profile/user-1.jpg';
     }
-  }
+    this.serviceClub.getAllClubs().subscribe({
+      next: (res: any[]) => { // Specify the type of 'res' as 'any[]'
+        return this.clubs = res
 
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
+    this.filteredClubs = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(club =>  (club ? this._filterClubs(club) : this.clubs.slice())),
+    );
+  }
+  private _filterClubs(value: string): any[] {
+    const filterValue = value.toLowerCase();
+ 
+    return  this.clubs.filter((option:any) => option.name.toLowerCase().includes(filterValue));
+      
+  }
   doAction(): void {
     this.dialogRef.close({ event: this.action, data: this.local_data });
   }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule, DatePipe } from '@angular/common';
+import { AsyncPipe, CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../material.module';
 import { NgxPermissionsModule } from 'ngx-permissions';
@@ -129,6 +129,7 @@ import { AppAddSponsorTeamComponent } from './sponsorTeam/add/add.component';
     }),
     MatNativeDateModule,
     NgScrollbarModule,
+    AsyncPipe,
   ],
   exports: [TablerIconsModule],
   declarations: [

@@ -43,6 +43,28 @@
         </mat-form-field>
       </div>
       
+      <div class="col-lg-6">
+        <mat-form-field class="example-full-width">
+          <mat-label>Club</mat-label>
+          <input matInput
+                 aria-label="Club"
+                 id="clubId"
+                 name="clubId"
+                 [(ngModel)]="local_data.clubId"
+                 [matAutocomplete]="auto"
+                 [formControl]="myControl">
+          <mat-autocomplete #auto="matAutocomplete">
+            @for (club of filteredClubs | async; track club) {
+              <mat-option [value]="club.name"  id="clubId"
+              name="clubId"
+              [(ngModel)]="local_data.clubId">
+                <span>{{club.name}}</span> 
+               </mat-option>
+            }
+          </mat-autocomplete>
+          </mat-form-field>
+      </div>
+      
       
 
 

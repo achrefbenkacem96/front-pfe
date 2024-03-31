@@ -34,12 +34,12 @@ export class SponsorTeamService {
 
   addSponsorTeam(sponsorTeam: SponsorTeam): Observable<SponsorTeam> {
     const headers = this.getHeaders();
-    return this.httpClient.post<SponsorTeam>(`${this.apiUrl}/Add-SponsorTeam`, sponsorTeam, { headers });
+    return this.httpClient.post<SponsorTeam>(`${this.apiUrl}/Add-sponsorTeam`, sponsorTeam, { headers });
   }
 
   updateSponsorTeam(id: number, modifiedSponsorTeam: SponsorTeam): Observable<SponsorTeam> {
     const headers = this.getHeaders();
-    return this.httpClient.put<SponsorTeam>(`${this.apiUrl}/updateSponsorTeam/${id}`, modifiedSponsorTeam, { headers });
+    return this.httpClient.put<SponsorTeam>(`${this.apiUrl}/sponsorTeam/${id}`, modifiedSponsorTeam, { headers });
   }
 
   deleteSponsorTeam(id: number): Observable<void> {

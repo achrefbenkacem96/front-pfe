@@ -34,12 +34,12 @@ export class ClubService {
 
   addClub(club: Club): Observable<Club> {
     const headers = this.getHeaders();
-    return this.httpClient.post<Club>(`${this.apiUrl}/Add-Club`, club, { headers });
+    return this.httpClient.post<Club>(`${this.apiUrl}/Add-club`, club, { headers });
   }
 
   updateClub(id: number, modifiedClub: Club): Observable<Club> {
     const headers = this.getHeaders();
-    return this.httpClient.put<Club>(`${this.apiUrl}/updateClub/${id}`, modifiedClub, { headers });
+    return this.httpClient.put<Club>(`${this.apiUrl}/club/${id}`, modifiedClub, { headers });
   }
 
   deleteClub(id: number): Observable<void> {

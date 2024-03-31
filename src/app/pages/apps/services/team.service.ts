@@ -39,7 +39,7 @@ export class TeamService {
 
   updateTeam(id: number, modifiedTeam: Team): Observable<Team> {
     const headers = this.getHeaders();
-    return this.httpClient.put<Team>(`${this.apiUrl}/${id}`, modifiedTeam, { headers });
+    return this.httpClient.put<Team>(`${this.apiUrl}/team/${id}`, modifiedTeam, { headers });
   }
 
   deleteTeam(id: number): Observable<void> {

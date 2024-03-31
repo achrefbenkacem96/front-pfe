@@ -37,7 +37,8 @@ export class SideResetPwdComponent {
     this.authentication.resetPassword(this.token, this.form.value.password).subscribe({
       next:(res) => {
         //@ts-ignore
-        this.message = "Check your email"
+        // this.message = "Check your email"
+        this.router.navigate(['/authentication/side-login']);
       },
       error:(err) => {
         console.log("🚀 ~ SideResetPwdComponent ~ this.authentication.resetPassword ~ err:", err)
@@ -48,6 +49,6 @@ export class SideResetPwdComponent {
     }
     })
   
-    // this.router.navigate(['/authentication/reset-pwd']);
+     
   }
 }

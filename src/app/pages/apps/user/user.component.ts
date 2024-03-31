@@ -51,8 +51,9 @@ export class AppUserComponent implements AfterViewInit {
     this.serviceUser.getAll().subscribe({
       next: (res: any) => { // Specify the type of 'res' as 'any[]'
         console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
-        this.users = this.parseResponseToUser(res); // Parse the response
-        this.dataSource.data = this.users; // Update the dataSource with the new data
+        this.users = this.parseResponseToUser(res).flat(); // Parse the response
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~  this.users:",  this.users)
+        this.dataSource.data = this.parseResponseToUser(res).flat(); // Update the dataSource with the new data
       },
       error: (err) => {
         console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
@@ -60,8 +61,17 @@ export class AppUserComponent implements AfterViewInit {
     });
   }
   private parseResponseToUser(response: any[]): User[] {
+    //@ts-ignore
     return response.map(user => {
       let rolesString = user.roles.map((role: any) => role.name).join(', ');
+   
+      // Check if the current user has the role "ROLE_MANAGER" and if rolesString contains only "ROLE_ADMIN"
+      if (this.role === "ROLE_MANAGER" && rolesString === "ROLE_ADMIN") {
+        // Return an empty array if the conditions are met
+        return [];
+      }
+  
+      // Otherwise, return the user object as it is
       return {
         userId: user.id,
         username: user.username,
@@ -70,7 +80,8 @@ export class AppUserComponent implements AfterViewInit {
         email: user.email,
         roles: rolesString
       };
-    });
+      //@ts-ignore
+    }); 
   }
 
   applyFilter(filterValue: string): void {

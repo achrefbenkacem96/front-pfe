@@ -25,15 +25,37 @@ export class AppSponsorComponent implements AfterViewInit {
     'action'
 
   ];
+  role: any = localStorage.getItem('role');
+  userId: any = localStorage.getItem('userId');
   dataSource = new MatTableDataSource(this.sponsors);
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator = Object.create(null);
 
   constructor(public dialog: MatDialog, public datePipe: DatePipe, public serviceSponsor: SponsorService) { }
 
   ngAfterViewInit(): void {
-    this.loadSponsor()
+    this.loadData()
 
     this.dataSource.paginator = this.paginator;
+  }
+  loadData(){
+    if ( this.role == "ROLE_ADMIN" || this.role == "ROLE_MANAGER") {
+      this.loadSponsor()
+    } else if ( this.role == "ROLE_SPONSOR" ){
+      
+      this.getSponsorById() 
+    }
+  }
+  getSponsorById(){
+    this.serviceSponsor.getSponsorById(this.userId).subscribe({
+      next: (res: any) => {  
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ res:", res);
+        this.sponsors =[res];  
+        this.dataSource.data = this.sponsors;  
+      },
+      error: (err) => {
+        console.log("🚀 ~ AppUserComponent ~ this.serviceUser.getAll ~ err:", err);
+      }
+    });
   }
   loadSponsor() {
     this.serviceSponsor.getAllSponsors().subscribe({
@@ -72,7 +94,7 @@ export class AppSponsorComponent implements AfterViewInit {
     this.serviceSponsor.addSponsor(row_obj).subscribe({
       next: (response) => {
         console.log("User added successfully:", response);
-        this.loadSponsor()
+        this.loadData()
       },
       error: (error) => {
         console.error("Error adding user:", error);
@@ -95,7 +117,7 @@ export class AppSponsorComponent implements AfterViewInit {
     this.serviceSponsor.updateSponsor(row_obj.id,request).subscribe({
       next: (response) => {
         console.log("User added successfully:", response);
-        this.loadSponsor()
+        this.loadData()
       },
       error: (error) => {
         console.error("Error adding user:", error);
@@ -108,7 +130,7 @@ export class AppSponsorComponent implements AfterViewInit {
   deleteRowData(row_obj: Sponsor): boolean | any {
     this.serviceSponsor.deleteSponsor(row_obj.id).subscribe({
       next: () => {
-        this.loadSponsor()
+        this.loadData()
         console.log('User deleted successfully.');
       },
       error: (error) => {

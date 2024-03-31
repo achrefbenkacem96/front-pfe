@@ -124,26 +124,26 @@ export class AppUserComponent implements AfterViewInit {
 
   // tslint:disable-next-line - Disables all
   updateRowData(row_obj: User): void {
-    // const userAddRequest: UserAddRequest = {
-    //   user: {
-    //     username: row_obj.username,
-    //     password: row_obj.password,
-    //     email: row_obj.email,
-    //     enable: row_obj.enable || false, // Assuming enable defaults to false if not provided
-    //   },
-    //   role: row_obj.roles || 'ROLE_USER' // Assuming default role is 'ROLE_USER' if not provided
-    // };
-    // this.serviceUser.update(userAddRequest, row_obj.userId).subscribe({
-    //   next: (response) => {
-    //     console.log('User updated successfully:', response);
+    const userAddRequest: any = {
+      user: {
+        username: row_obj.username,
+        password: row_obj.password,
+        email: row_obj.email,
+        enable: row_obj.enable || false, // Assuming enable defaults to false if not provided
+      },
+      role: row_obj.roles || 'ROLE_USER' // Assuming default role is 'ROLE_USER' if not provided
+    };
+    this.serviceUser.update(userAddRequest, row_obj.userId).subscribe({
+      next: (response) => {
+        console.log('User updated successfully:', response);
 
-    //     this.loadUsers()
-    //   },
-    //   error: (error) => {
-    //     console.error('Error updating user:', error);
-    //     // You may handle any error message or other actions here
-    //   }
-    // });
+        this.loadUsers()
+      },
+      error: (error) => {
+        console.error('Error updating user:', error);
+        // You may handle any error message or other actions here
+      }
+    });
   }
 
   // tslint:disable-next-line - Disables all

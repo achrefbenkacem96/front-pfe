@@ -41,7 +41,8 @@
               <!-- <span class="f-s-14 d-block mat-body-1 m-t-8"
                 >Please enter the email address associated with your account and
                 We will email you a link to reset your password.</span > -->
-  
+                <h3 class="text-error">{{message}}</h3>
+
               <form class="m-t-30" [formGroup]="form" (ngSubmit)="submit()">
                 <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
                   >password</mat-label

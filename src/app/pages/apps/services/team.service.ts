@@ -34,7 +34,7 @@ export class TeamService {
 
   addTeam(team: Team): Observable<Team> {
     const headers = this.getHeaders();
-    return this.httpClient.post<Team>(`${this.apiUrl}/Add-team`, team, { headers });
+    return this.httpClient.post<Team>(`${this.apiUrl}/Add-Team`, team, { headers });
   }
 
   updateTeam(id: number, modifiedTeam: Team): Observable<Team> {

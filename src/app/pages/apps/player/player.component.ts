@@ -145,9 +145,21 @@ export class AppPlayerDialogContentComponent {
   ) {
     this.local_data = { ...data };
     this.action = this.local_data.action;
-    if (this.local_data.DateOfJoining !== undefined) {
-      this.joiningDate = this.datePipe.transform(
-        new Date(this.local_data.DateOfJoining),
+    if (this.local_data.dateOfBirth !== undefined) {
+      this.local_data.dateOfBirth = this.datePipe.transform(
+        new Date(this.local_data.dateOfBirth),
+        'yyyy-MM-dd',
+      );
+    }
+    if (this.local_data.contractStart !== undefined) {
+      this.local_data.contractStart = this.datePipe.transform(
+        new Date(this.local_data.contractStart),
+        'yyyy-MM-dd',
+      );
+    }
+    if (this.local_data.contractEnd !== undefined) {
+       this.local_data.contractEnd= this.datePipe.transform(
+        new Date(this.local_data.contractEnd),
         'yyyy-MM-dd',
       );
     }

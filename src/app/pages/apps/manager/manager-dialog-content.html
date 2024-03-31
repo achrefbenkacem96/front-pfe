@@ -11,7 +11,7 @@
             required
             id="name"
             name="name"
-            [(ngModel)]="local_data.name"
+            [(ngModel)]="local_data.nameManager"
             placeholder="Name"
           />
         </mat-form-field>
@@ -19,14 +19,13 @@
       <div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
           <input
-            type="text"
+            type="date"
             matInput
             required
             id="dateOfBirth"
             name="dateOfBirth"
             [(ngModel)]="local_data.dateOfBirth"
-            placeholder="Date Of Birth"
-          />
+           />
         </mat-form-field>
       </div>
       

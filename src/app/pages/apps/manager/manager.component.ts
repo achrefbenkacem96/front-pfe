@@ -16,6 +16,8 @@ export class AppManagerComponent implements AfterViewInit {
   managers: Manager[]= [];
   displayedColumns: string[] = [
     '#',
+    'username',
+    'email',
     'name',
     'dateOfBirth',
     'action'
@@ -128,9 +130,9 @@ export class AppManagerDialogContentComponent {
   ) {
     this.local_data = { ...data };
     this.action = this.local_data.action;
-    if (this.local_data.DateOfJoining !== undefined) {
-      this.joiningDate = this.datePipe.transform(
-        new Date(this.local_data.DateOfJoining),
+    if (this.local_data.dateOfBirth !== undefined) {
+      this.local_data.dateOfBirth = this.datePipe.transform(
+        new Date(this.local_data.dateOfBirth),
         'yyyy-MM-dd',
       );
     }

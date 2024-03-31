@@ -73,6 +73,8 @@ export class AppSideLoginComponent  implements AfterViewInit {
         localStorage.setItem('role',res.roles[0])
          //@ts-ignore
         localStorage.setItem('username',res.username)
+        //@ts-ignore
+        localStorage.setItem('userId',res.id)
         window.location.href = '/dashboards/dashboard1' ;
         return {
         }

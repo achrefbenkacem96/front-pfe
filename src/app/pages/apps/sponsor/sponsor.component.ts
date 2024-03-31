@@ -16,6 +16,10 @@ export class AppSponsorComponent implements AfterViewInit {
   sponsors: Sponsor[]= [];
   displayedColumns: string[] = [
     '#',
+    'username',
+    'email',
+    // 'contratSponsor',
+    // 'sponsorTeam',
     'termesFinancieres',
     'detailsContractuel',
     'action'
@@ -82,6 +86,8 @@ export class AppSponsorComponent implements AfterViewInit {
   // tslint:disable-next-line - Disables all
   updateRowData(row_obj: Sponsor): boolean | any {
     let request: Sponsor = {
+      // contratSponsor: row_obj.contratSponsor,
+      // sponsorTeam: row_obj.sponsorTeam,
       detailsContractuel: row_obj.detailsContractuel,
       termesFinancieres: row_obj.termesFinancieres,
       id: row_obj.id

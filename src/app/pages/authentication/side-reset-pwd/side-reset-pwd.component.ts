@@ -15,6 +15,7 @@ import { AuthenticationService } from '../services/authentication.service';
 export class SideResetPwdComponent {
   options = this.settings.getOptions();
   token:string;
+  message:string;
   constructor(private settings: CoreService,
      private router: Router,
      private authentication: AuthenticationService,
@@ -33,7 +34,20 @@ export class SideResetPwdComponent {
 
   submit() {
     console.log(this.form.value);
-    this.authentication.resetPassword(this.token, this.form.value.password).subscribe()
+    this.authentication.resetPassword(this.token, this.form.value.password).subscribe({
+      next:(res) => {
+        //@ts-ignore
+        this.message = "Check your email"
+      },
+      error:(err) => {
+        console.log("🚀 ~ SideResetPwdComponent ~ this.authentication.resetPassword ~ err:", err)
+        this.message = "Something wrong "
+
+        return {
+      }
+    }
+    })
+  
     // this.router.navigate(['/authentication/reset-pwd']);
   }
 }

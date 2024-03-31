@@ -23,6 +23,8 @@ export class AppCoachComponent implements AfterViewInit {
   role: any = localStorage.getItem('role');
   displayedColumns: string[] = [
     '#',
+    'email' ,
+    'username' ,
     'rapport' ,
     'action'
   ];

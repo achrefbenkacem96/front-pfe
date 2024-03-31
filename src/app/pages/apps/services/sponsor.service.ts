@@ -39,7 +39,7 @@ export class SponsorService {
 
   updateSponsor(id: number, modifiedSponsor: Sponsor): Observable<Sponsor> {
     const headers = this.getHeaders();
-    return this.httpClient.put<Sponsor>(`${this.apiUrl}/${id}`, modifiedSponsor, { headers });
+    return this.httpClient.put<Sponsor>(`${this.apiUrl}/sponsor/${id}`, modifiedSponsor, { headers });
   }
 
   deleteSponsor(id: number): Observable<void> {

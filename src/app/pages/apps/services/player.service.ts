@@ -40,7 +40,7 @@ export class PlayerService {
 
   updatePlayer(id: number, modifiedPlayer: Player): Observable<Player> {
     const headers = this.getHeaders();
-    return this.httpClient.put<Player>(`${this.apiUrl}/${id}`, modifiedPlayer, { headers });
+    return this.httpClient.put<Player>(`${this.apiUrl}/player/${id}`, modifiedPlayer, { headers });
   }
 
   deletePlayer(id: number): Observable<void> {

@@ -152,7 +152,7 @@ export class AppHorizontalHeaderComponent {
       img: '/assets/images/svgs/icon-account.svg',
       title: 'My Profile',
       subtitle: 'Account Settings',
-      link: '/',
+      link: '/theme-pages/account-setting',
     },
     {
       id: 2,

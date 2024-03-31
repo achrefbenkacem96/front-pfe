@@ -119,6 +119,8 @@ export class HeaderComponent {
   loguot(): void {
     localStorage.removeItem('accessToken')
     localStorage.removeItem('role')
+    localStorage.removeItem('username')
+    localStorage.removeItem('userId')
     this.router.navigate(['/authentication/side-login'])
   }
 
@@ -161,7 +163,7 @@ export class HeaderComponent {
       img: '/assets/images/svgs/icon-account.svg',
       title: 'My Profile',
       subtitle: 'Account Settings',
-      link: '/',
+      link: '/theme-pages/account-setting',
     },
     {
       id: 2,

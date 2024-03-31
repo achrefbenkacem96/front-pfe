@@ -39,7 +39,7 @@ export class CoachService {
 
   updateCoach(id: number, modifiedCoach: Coach): Observable<Coach> {
     const headers = this.getHeaders();
-    return this.httpClient.put<Coach>(`${this.apiUrl}/${id}`, modifiedCoach, { headers });
+    return this.httpClient.put<Coach>(`${this.apiUrl}/coach/${id}`, modifiedCoach, { headers });
   }
 
   deleteCoach(id: number): Observable<void> {

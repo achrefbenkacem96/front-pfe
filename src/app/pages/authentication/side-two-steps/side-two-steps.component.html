@@ -43,10 +43,11 @@
           >
           <span class="f-w-600 d-block m-t-16">******1234</span>
 
-          <form class="m-t-30 p-t-30">
+          <form class="m-t-30 p-t-30" [formGroup]="form" (ngSubmit)="submit()">
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block"
               >Type your 6 digits security code</mat-label
             >
+            <h3 class="text-error">{{message}}</h3>
             <div class="d-flex align-items-center"></div>
             <div class="row custom-row">
               <div class="col-2">
@@ -55,7 +56,15 @@
                   class="w-100"
                   color="primary"
                 >
-                  <input matInput />
+                  <input 
+                  type="text"
+                  matInput
+                  required
+                  [maxLength]="1"
+                  formControlName="c1"
+                  name="c1" 
+ 
+                  />
                 </mat-form-field>
               </div>
               <div class="col-2">
@@ -64,7 +73,15 @@
                   class="w-100"
                   color="primary"
                 >
-                  <input matInput />
+                <input 
+                type="text"
+                matInput
+                required
+                [maxLength]="1"
+                formControlName="c2"
+                name="c2" 
+ 
+                />
                 </mat-form-field>
               </div>
               <div class="col-2">
@@ -73,7 +90,15 @@
                   class="w-100"
                   color="primary"
                 >
-                  <input matInput />
+                <input 
+                type="text"
+                matInput
+                required
+                [maxLength]="1"
+                formControlName="c3"
+                name="c3" 
+ 
+                />
                 </mat-form-field>
               </div>
               <div class="col-2">
@@ -82,7 +107,15 @@
                   class="w-100"
                   color="primary"
                 >
-                  <input matInput />
+                <input 
+                type="text"
+                matInput
+                required
+                [maxLength]="1"
+                formControlName="c4"
+                name="c4" 
+ 
+                />
                 </mat-form-field>
               </div>
               <div class="col-2">
@@ -91,7 +124,15 @@
                   class="w-100"
                   color="primary"
                 >
-                  <input matInput />
+                <input 
+                type="text"
+                matInput
+                required
+                [maxLength]="1"
+                formControlName="c5"
+                name="c5" 
+ 
+                />
                 </mat-form-field>
               </div>
               <div class="col-2">
@@ -100,19 +141,28 @@
                   class="w-100"
                   color="primary"
                 >
-                  <input matInput />
+                <input 
+                type="text"
+                matInput
+                required
+                [maxLength]="1"
+                formControlName="c6"
+                name="c6" 
+                
+                />
                 </mat-form-field>
               </div>
             </div>
 
-            <a
-              [routerLink]="['/dashboards/dashboard1']"
-              mat-flat-button
-              color="primary"
-              class="w-100"
-            >
+            
+            <button
+                mat-flat-button
+                color="primary"
+                class="w-100"
+                [disabled]="!form.valid"
+              >
               Verify My Account
-            </a>
+              </button>
             <!-- input -->
           </form>
           <span class="d-block f-w-500 d-block f-s-14 m-t-24"

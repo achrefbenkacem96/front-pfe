@@ -39,7 +39,7 @@ export class ManagerService {
 
   updateManager(id: number, modifiedManager: Manager): Observable<Manager> {
     const headers = this.getHeaders();
-    return this.httpClient.put<Manager>(`${this.apiUrl}/${id}`, modifiedManager, { headers });
+    return this.httpClient.put<Manager>(`${this.apiUrl}/manager/${id}`, modifiedManager, { headers });
   }
 
   deleteManager(id: number): Observable<void> {

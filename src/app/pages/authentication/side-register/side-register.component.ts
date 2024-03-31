@@ -42,7 +42,7 @@ export class AppSideRegisterComponent {
       next:(res) => {
         //@ts-ignore
         if (res.message === "Utilisateur enregistré avec succès !") {
-          this.router.navigate(['/authentication/side-login']);
+          this.router.navigate(['/authentication/side-two-steps']);
         } else {
           alert("Please fix the errors in the form.");
         }

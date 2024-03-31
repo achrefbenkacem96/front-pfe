@@ -44,4 +44,13 @@ export class AuthenticationService {
     body.set('newPassword', newPassword);
     return this.httpClient.post(`${this.path}/password/reset`,  body, { headers });
   }
+  verify(code: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    const body = new URLSearchParams();
+    body.set('code', code);
+     return this.httpClient.post(`${this.path}/auth/verify`,  body, { headers });
+  }
 }

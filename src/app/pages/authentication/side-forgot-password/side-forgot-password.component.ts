@@ -13,7 +13,7 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class AppSideForgotPasswordComponent {
   options = this.settings.getOptions();
-
+  message: string;
   constructor(private settings: CoreService, private router: Router, private authentication: AuthenticationService) { }
 
   form = new FormGroup({
@@ -26,7 +26,18 @@ export class AppSideForgotPasswordComponent {
 
   submit() {
     console.log(this.form.value);
-    this.authentication.requestPasswordReset(this.form.value.email).subscribe()
+    this.authentication.requestPasswordReset(this.form.value.email).subscribe({
+      next:(res) => {
+        //@ts-ignore
+        this.message = "Check your email"
+      },
+      error:(err) => {
+        this.message = "Something wrong "
+
+        return {
+      }
+    }
+    })
     // this.router.navigate(['/authentication/reset-pwd']);
   }
 }

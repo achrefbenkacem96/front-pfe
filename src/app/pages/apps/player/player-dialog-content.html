@@ -22,35 +22,39 @@
             matInput
             required
             id="name"
-            name="name"
-            [(ngModel)]="local_data.leagalefullname"
-            placeholder="Name"
+            name="fullName"
+            [(ngModel)]="local_data.fullName"
+            placeholder="fullName"
           />
         </mat-form-field>
       </div>
       <div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Contract Start</mat-label>
+
           <input
             type="date"
             matInput
             required
-            id="contratStart"
-            name="contratStart"
-            [(ngModel)]="local_data.contratStart"
-            placeholder="contratStart"
+            id="contractStart"
+            name="contractStart"
+            [(ngModel)]="local_data.contractStart"
+            placeholder="contractStart"
           />
         </mat-form-field>
       </div>
       <div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Contract End</mat-label>
+
           <input
             type="date"
             matInput
             required
-            id="contratEnd"
-            name="contratEnd"
-            [(ngModel)]="local_data.contratEnd"
-            placeholder="contratEnd"
+            id="contractEnd"
+            name="contractEnd"
+            [(ngModel)]="local_data.contractEnd"
+            placeholder="contractEnd"
           />
         </mat-form-field>
       </div>
@@ -69,6 +73,8 @@
       </div>
       <div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Date Of Birth</mat-label>
+
           <input
             type="date"
             placeholder="dateOfBirth"
@@ -121,10 +127,10 @@
             type="text"
             matInput
             required
-            id="mailAdress"
-            name="mailAdress"
-            [(ngModel)]="local_data.mailAdress"
-            placeholder="mailAdress"
+            id="mailAddress"
+            name="mailAddress"
+            [(ngModel)]="local_data.mailAddress"
+            placeholder="Mail Address"
           />
         </mat-form-field></div><div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
@@ -143,10 +149,10 @@
             type="text"
             matInput
             required
-            id="socialMediaLinks"
-            name="socialMediaLinks"
-            [(ngModel)]="local_data.socialMediaLinks"
-            placeholder="socialMediaLinks"
+            id="socialMediaLinkFollowers"
+            name="socialMediaLinkFollowers"
+            [(ngModel)]="local_data.socialMediaLinkFollowers"
+            placeholder="Social Media Link Followers"
           />
         </mat-form-field></div><div class="col-lg-6">
         <mat-form-field appearance="outline" class="w-100">
@@ -154,10 +160,10 @@
             type="text"
             matInput
             required
-            id="whatsappPhone"
-            name="whatsappPhone"
-            [(ngModel)]="local_data.whatsappPhone"
-            placeholder="whatsappPhone"
+            id="whatsappPhoneNumber"
+            name="whatsappPhoneNumber"
+            [(ngModel)]="local_data.whatsappPhoneNumber"
+            placeholder="Whatsapp Phone"
           />
         </mat-form-field></div>
      

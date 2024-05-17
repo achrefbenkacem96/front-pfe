@@ -55,9 +55,9 @@
                  [formControl]="myControl">
           <mat-autocomplete #auto="matAutocomplete">
             @for (club of filteredClubs | async; track club) {
-              <mat-option [value]="club.name"  id="clubId"
-              name="clubId"
-              [(ngModel)]="local_data.clubId">
+              <mat-option [value]="club.id"  id="clubId"
+                 name="clubId"
+                 [(ngModel)]="local_data.clubId">
                 <span>{{club.name}}</span> 
                </mat-option>
             }

@@ -2,7 +2,7 @@ import { NavItem } from './nav-item/nav-item';
 let navItems: NavItem[] = [];
 let role =null
    role = localStorage.getItem('role');
- 
+
 console.log("🚀 ~ role:", role)
 switch (role) {
   case 'ROLE_ADMIN':
@@ -118,7 +118,7 @@ switch (role) {
         iconName: 'brand-ctemplar',
         route: 'apps/coach',
       },
-     
+
       {
         displayName: 'Player',
         iconName: 'brand-ctemplar',
@@ -603,7 +603,7 @@ switch (role) {
       //           iconName: 'point',
       //           route: '/menu-1',
       //         },
-    
+
       //         {
       //           displayName: 'Menu 2',
       //           iconName: 'point',
@@ -611,7 +611,7 @@ switch (role) {
       //         },
       //       ],
       //     },
-    
+
       //     {
       //       displayName: 'Menu 2',
       //       iconName: 'point',
@@ -659,7 +659,7 @@ switch (role) {
         iconName: 'aperture',
         route: '/dashboards/dashboard1',
       },
-      
+
       {
         displayName: 'Calendar',
         iconName: 'calendar-event',
@@ -675,12 +675,12 @@ switch (role) {
         iconName: 'brand-ctemplar',
         route: 'apps/user',
       },
- 
+
       {
         displayName: 'Manager',
         iconName: 'brand-ctemplar',
         route: 'apps/manager',
-      } 
+      }
     ]
     break;
   case 'ROLE_PLAYER':
@@ -744,7 +744,12 @@ switch (role) {
         displayName: 'Analytical',
         iconName: 'aperture',
         route: '/dashboards/dashboard1',
-      } 
+      },
+      {
+        displayName: 'AchievementPlayer',
+        iconName: 'brand-ctemplar',
+        route: 'apps/achievementplayer',
+      },
     ]
     break;
 }

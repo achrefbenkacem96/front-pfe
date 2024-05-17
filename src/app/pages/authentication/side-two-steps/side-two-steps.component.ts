@@ -23,9 +23,9 @@ export class AppSideTwoStepsComponent {
     c4: new FormControl('', [Validators.required, Validators.maxLength(1)]),
     c5: new FormControl('', [Validators.required, Validators.maxLength(1)]),
     c6: new FormControl('', [Validators.required, Validators.maxLength(1)]),
-     
+
   } );
-  submit() {    
+  submit() {
     console.log("🚀 ~ AppSideTwoStepsComponent ~ submit ~ this.form:", this.form.value)
     if (this.form.invalid) {
       alert("Please fix the errors in the form.");
@@ -51,7 +51,7 @@ for (let key in  this.form.value) {
           this.router.navigate(['/authentication/side-login']);
         } else {
           this.message = res.message
-          
+
         }
         console.log("🚀 ~ AppSideRegisterComponent ~ this.authentication.register ~ res:", res)
         return {
@@ -63,6 +63,6 @@ for (let key in  this.form.value) {
       }
       }
     })
-    // 
+    //
   }
 }

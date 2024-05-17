@@ -151,9 +151,9 @@ export class AppTeamDialogContentComponent {
   ) {
     this.local_data = { ...data };
     this.action = this.local_data.action;
-    if (this.local_data.DateOfJoining !== undefined) {
-      this.joiningDate = this.datePipe.transform(
-        new Date(this.local_data.DateOfJoining),
+    if (this.local_data.dateCreation !== undefined) {
+      this.local_data.dateCreation = this.datePipe.transform(
+        new Date(this.local_data.dateCreation),
         'yyyy-MM-dd',
       );
     }
